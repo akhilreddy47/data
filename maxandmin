@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct list
+{
+    int data;
+    struct list *next,*max,*min;
+}*head=NULL,*tail=NULL,*temp,*node,*maxnode=NULL,*minnode=NULL;
+void push(int data)
+{
+    node=(struct list*)malloc(sizeof(struct list));
+    node->data=data;
+    node->next=NULL;
+    if(head==NULL)
+    {
+      head=node;
+      tail=node;
+      head->max=node;
+      head->min=node;
+      maxnode=node;
+      minnode=node;
+      return;
+    }
+    if(maxnode->data<=node->data)
+            maxnode=node;
+    if(minnode->data>=node->data)
+            minnode=node;
+    node->max=maxnode;
+    node->min=minnode;
+    tail->next=node;
+    tail=node;
+    return;
+}
+void display()
+{
+    temp=head;
+    printf("data min max\n");
+    while(temp!=NULL)
+    {
+        printf("%d   %d   %d\n",temp->data,temp->min->data,temp->max->data);
+        temp=temp->next;
+    }
+    return;
+}
+void pop()
+{
+    temp=head;
+    while(temp->next->next!=NULL)
+    {
+        temp=temp->next;
+    }
+    temp->next=NULL;
+}
+int main()
+{
+    int ch,data;
+
+    while(1)
+    {
+        printf("1. push 2.pop 3.display 4.exit\n");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+                case 1: printf("enter data to insert\n");
+                        scanf("%d",&data);
+                        push(data);
+                        break;
+                case 2: pop();
+                        break;
+                case 3: display();
+                        break;
+                case 4: exit(0);
+        }
+    }
+    return 0;
+}

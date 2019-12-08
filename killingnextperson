@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct line
+{
+    int data;
+    struct line *next;
+}*head=NULL,*tail=NULL,*node,*temp,*temp1;
+struct line* killingnextperson()
+{
+    temp=head;
+    if(temp==temp->next)
+        return temp;
+    while(temp!=temp->next->next || temp!=temp->next)
+    {
+        temp1=temp->next;
+        temp->next=temp1->next;
+        temp=temp->next;
+        free(temp1);
+    }
+    free(temp->next);
+    return temp;
+}
+void insert(int data)
+{
+    node=(struct line*)malloc(sizeof(struct line));
+    node->data=data;
+    if(head==NULL)
+    {
+        node->next=node;
+        head=node;
+        tail=node;
+        return;
+    }
+    node->next=head;
+    tail->next=node;
+    tail=node;
+    return;
+}
+int main()
+{
+    int i,n;
+    printf("enter no of persons\n");
+    scanf("%d",&n);
+    for(i=1;i<=n;i++)
+        insert(i);
+    printf("\n%d",killingnextperson()->data);
+    return 0;
+}

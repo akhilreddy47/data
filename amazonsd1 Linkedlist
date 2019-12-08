@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+void rearrange();
+void display();
+void insert(int data);
+struct list
+{
+    int data;
+    struct list *next;
+}*head=NULL,*tail=NULL,*node,*end,*even,*traverse,*last;
+void insert(int data)
+{
+    node=(struct list*)malloc(sizeof(struct list));
+    node->data=data;
+    node->next=NULL;
+    if(head==NULL)
+    {
+        head=node;
+        tail=node;
+        return;
+    }
+    tail->next=node;
+    tail=node;
+}
+void display()
+{
+    traverse=head;
+    while(traverse->next!=NULL)
+    {
+        printf("%d ",traverse->data);
+        traverse=traverse->next;
+    }
+    tail=traverse;
+    printf("%d\n",traverse->data);
+    return;
+}
+void rearrange()
+{
+    if(head==NULL)
+    {
+        printf("no elements to rearrange\n");
+        return;
+    }
+    traverse=head;
+    end=tail;
+    last=traverse->next;
+    tail=end->next;
+    while(!(traverse==end || traverse->next==end))
+    {
+        even=traverse->next;
+        traverse->next=even->next;
+        traverse=traverse->next;
+        end->next=even;
+        even->next=tail;
+        tail=even;
+
+    }
+    tail=last;
+     return;
+}
+
+int main()
+{
+    printf("start\n");
+    int i,data,ch;
+    while(1)
+    {
+        printf("1. insert 2.rearrange 3.display 3.Exit \n");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1: printf("enter element\n");
+                    scanf("%d",&data);
+                    insert(data);
+                    break;
+            case 2: rearrange();
+                    break;
+            case 3:
+                    display();
+                    break;
+                    case 3:exit(0);
+
+        }
+    }
+    return 0;
+}
